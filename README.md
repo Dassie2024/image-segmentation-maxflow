@@ -2,6 +2,12 @@
 
 This project applies graph theory to image segmentation using the **Max-Flow Min-Cut** algorithm. By modeling an image as a flow network and applying the **Edmonds-Karp algorithm**, we segment the image into foreground and background regions.
 
+## Live Demo
+
+Check out the live version of this project here:  
+[https://Dassie2024.github.io/image-segmentation-maxflow/](https://Dassie2024.github.io/image-segmentation-maxflow/)
+
+
 ---
 
 ## Background
