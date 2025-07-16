@@ -34,7 +34,7 @@ This project applies graph theory to image segmentation using the **Max-Flow Min
 
 ```bash
 python segment.py --input input_image.jpg
-
+```
 
 
 ## Implementation: Using Max-Flow Min-Cut Theory
@@ -47,7 +47,7 @@ For this project, I experimented with an existing image segmentation tool based 
 
 ```bash
 python imagesegmentation.py yourImage.jpg
-
+```
 A window prompts you to mark **foreground seeds** using the cursor; press `ESC` when done.
 
 Next, a second window opens to mark **background seeds**; press `ESC` to continue.
