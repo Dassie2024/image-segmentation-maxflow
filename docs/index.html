@@ -4,42 +4,149 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Max-Flow Min-Cut Problem and Image Segmentation</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+    min-height: 100vh;
+    padding-left: 270px;
+  }
+
+    #sidenav {
+      width: 250px;
+      background-color: #1e1e2f;
+      padding: 1em;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #sidenav h2 {
+      font-size: 1.2em;
+      border-bottom: 1px solid #555;
+      padding-bottom: 0.5em;
+    }
+
+    #sidenav a {
+      display: block;
+      margin: 0.5em 0;
+      color: #ddd;
+      text-decoration: none;
+      font-size: 0.95em;
+      padding: 0.4em 0.8em;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+
+    #sidenav a:hover {
+      background-color: #00d8ff;
+      color: #1e1e2f;
+    }
+
+    main {
+    padding: 4em 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+    .content-container {
       max-width: 900px;
-      margin: auto;
-      padding: 1em;
-      line-height: 1.6;
+      width: 100%;
+      padding: 0 3rem;
+      box-sizing: border-box;
+  }
+
+    header h1 {
+      margin-top: 0;
     }
-    h1, h2, h3 {
-      color: #2a5d34;
+
+    section {
+      margin-bottom: 3em;
     }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+      display: block;
+      margin: 1em auto;
+      max-height: 400px;
+      object-fit: contain;
+    }
+
+    .image-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+.image-row figure {
+      width: 30%;
+      text-align: center;
+      margin: 0;
+    }
+
+    .image-row img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+}
+
     pre {
-      background: #f4f4f4;
+      background-color: #f0f0f0;
       padding: 1em;
+      border-radius: 5px;
       overflow-x: auto;
     }
-    figure {
-      text-align: center;
-      margin: 1em 0;
+
+    code {
+      font-family: monospace;
     }
-    figcaption {
-      font-style: italic;
+
+    figure figcaption {
       font-size: 0.9em;
-      margin-top: 0.3em;
+      color: #555;
     }
-    ul {
-      margin-left: 1.5em;
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
     }
   </style>
-
-  <!-- MathJax for math rendering -->
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
 <body>
-
-  <header>
+  <div id="sidenav">
+    <h2 class="nav-header">Sections</h2>
+    <a href="#abstract">Abstract</a>
+    <a href="#introduction">Introduction</a>
+    <a href="#network-flow-graph-overview">Network Flow</a>
+    <a href="#graph-representation-images">Graph Representation</a>
+    <a href="#graph-cuts">Graph Cuts in Image Segmentation</a>
+    <a href="#greedy-failure">Greedy Pitfalls</a>
+    <a href="#edmonds-karp">Edmonds-Karp</a>
+    <a href="#implementation">Implementation</a>
+    <a href="#conclusion">Conclusion</a>
+    <a href="#references">References</a>
+  </div>
+  <main>
+    <body>
+    <header>
     <h1>Max-Flow Min-Cut Problem and Image Segmentation</h1>
     <p><strong>Author:</strong> Dassie Galapo<br/>
       <strong>Course:</strong> CIS 5515: Design and Analysis of Algorithms<br/>
@@ -120,7 +227,7 @@
     <p>The capacities of the edges between the super-source and the pixels are denoted as \( a_i \), and the capacities between the pixels and the super-sink are denoted as \( b_i \). The capacities between neighboring pixels \( i \) and \( j \) are given by \( p_{ij} \), as seen in the image below depicting four pixels and their three types of edges:</p>
 
     <!-- Insert your image here -->
-    <img src="images/s-t cut.png" alt="Graph with 4 Pixels Demonstrating s-t Cut" style="max-width: 50%; display: block; margin: auto;" />
+    <img src="../docs/images/s-t cut.png" alt="Graph with 4 Pixels Demonstrating s-t Cut" style="max-width: 50%; display: block; margin: auto;" />
     <p style="text-align:center; font-size: 0.9em;">Figure: Graph with 4 Pixels Demonstrating s-t Cut. Source: Kleinberg (2006).</p>
 
     <p>This transforms the segmentation problem into finding a minimum cut that separates the foreground from the background.</p>
@@ -155,7 +262,7 @@
 
     <p>This cost is equivalent to \( q'(A,B) \), and by finding the minimum cut in the graph, we obtain an optimal segmentation (Kleinberg, 2006).</p>
 
-<section>
+  <section id="graph-cuts">
   <h2>Boykov and Funka-Lea Paper on Graph Cuts in Image Segmentation</h2>
   <p>
     In order to design the minimum-cut problem, with source and sink vertices, a seminal paper called 
@@ -186,7 +293,7 @@
   </p>
 </section>
 
-<section>
+  <section id="greedy-failure">
   <h2>Why Greedy Algorithms Do Not Work for Min-Cut Max-Flow</h2>
   <p>
     Greedy algorithms make locally optimal choices in the hope that these choices will lead to a globally optimal solution. However, in the case of the Max-Flow Min-Cut problem, greedy algorithms do not work effectively. The reason is that a greedy algorithm typically focuses on individual edges or vertices in the flow network, and it might make decisions based solely on local conditions (e.g., pixel intensities) without considering the global structure of the flow.
@@ -197,7 +304,7 @@
   </p>
 
   <figure style="text-align:center;">
-    <img src="images/greedy.png" alt="Network Flow: A Greedy and Optimal Solution for Finding the Max-Flow" style="max-width: 50%;">
+    <img src="../docs/images/greedy.png" alt="Network Flow: A Greedy and Optimal Solution for Finding the Max-Flow" style="max-width: 50%;">
     <figcaption>Network Flow: A Greedy and Optimal Solution for Finding the Max-Flow</figcaption>
   </figure>
 
@@ -210,7 +317,7 @@
   </p>
 </section>
 
-<section>
+  <section id="edmonds-karp">
   <h2>Edmonds-Karp Max-Flow Min-Cut Algorithm</h2>
 
   <p>
@@ -316,6 +423,7 @@
     Space complexity is \( O(|V| + |E|) \) due to graph representation, BFS queue, parent array, and residual graph.
   </p>
 
+  <section id="implementation">
   <h2>Implementation: Experimenting with an Existing Tool for Image Segmentation</h2>
   <p>
     The tool uses the Max-Flow Min-Cut approach with user-defined foreground and background seeds. The source code is available at:
@@ -337,36 +445,33 @@
     The segmentation was accurate when clear seeds were placed. The results depend heavily on the number and accuracy of seeds. More accurate seeds improved segmentation quality.
   </p>
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-  <figure style="width: 30%; text-align: center; margin: 0;">
-    <img src="images/dogs.jpg" alt="Original Image of Dogs"
-         style="width: 100%; height: 250px; object-fit: cover;" />
-    <figcaption>Original Image of Dogs</figcaption>
-  </figure>
-
-  <figure style="width: 30%; text-align: center; margin: 0;">
-    <img src="images/dogsseeded.jpg" alt="Image with Foreground and Background Seeds"
-         style="width: 100%; height: 250px; object-fit: cover;" />
-    <figcaption>Image with Foreground and Background Seeds</figcaption>
-  </figure>
-
-  <figure style="width: 30%; text-align: center; margin: 0;">
-    <img src="images/dogscut.jpg" alt="Segmented Image Showing Foreground and Background Separation"
-         style="width: 100%; height: 250px; object-fit: cover;" />
-    <figcaption>Segmented Image Showing Foreground and Background Separation</figcaption>
-  </figure>
-</div>
+<div class="image-row">
+        <figure>
+          <img src="../docs/images/dogs.jpg" alt="Original Image of Dogs" />
+          <figcaption>Original Image of Dogs</figcaption>
+        </figure>
+        <figure>
+          <img src="../docs/images/dogsseeded.jpg" alt="Image with Foreground and Background Seeds" />
+          <figcaption>Image with Foreground and Background Seeds</figcaption>
+        </figure>
+        <figure>
+          <img src="../docs/images/dogscut.jpg" alt="Segmented Image Showing Foreground and Background Separation" />
+          <figcaption>Segmented Image Showing Foreground and Background Separation</figcaption>
+        </figure>
+      </div>
+</section>
 
 
 
 
-
-
+<section id="conclusion">
  <h2>Conclusion</h2>
   <p>
     The Max-Flow Min-Cut problem provides an elegant and powerful method for solving the image segmentation problem in computer vision. By transforming an image into a flow network and applying the Max-Flow Min-Cut algorithm, we can efficiently segment an image into distinct regions, such as foreground and background. The ability to use graph cuts ensures that the segmentation is both optimal and effective in minimizing boundaries between segments. The <strong>Edmonds-Karp</strong> algorithm allows for an efficient solution to the Max-Flow Min-Cut problem and serves as the backbone for modern segmentation techniques in computer vision.
   </p>
+  </section>
 
+  <section id="references">
     <h2>References</h2>
   <ol>
     <li>
@@ -388,8 +493,9 @@
       Lammich, P., & Sefidgar, S. R. (2019). Formalizing Network Flow Algorithms: A Refinement Approach in Isabelle/HOL. <em>Journal of Automated Reasoning</em>, <strong>62</strong>(2), 261–280. https://doi.org/10.1007/s10817-017-9442-4
     </li>
   </ol>
+  </section>
 
-
+</main>
 </body>
 </html>
 
