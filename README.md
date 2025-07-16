@@ -86,5 +86,4 @@ Press `ESC` to quit, and the original and segmented images are saved automatical
 ## References
 
 - Boykov & Kolmogorov (2004): "An Experimental Comparison of Min-Cut/Max-Flow Algorithms"
-- CIS 5590: Computational Photography
 
