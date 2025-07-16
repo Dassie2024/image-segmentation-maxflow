@@ -68,9 +68,19 @@ Press `ESC` to quit, and the original and segmented images are saved automatical
 
 ### Example
 
-| Original Image   | Seeds Marked    | Segmented Result   |
-|------------------|-----------------|--------------------|
-| ![](images/original.jpg) | ![](images/seeds.jpg) | ![](images/segmented.jpg) |
+<table>
+  <tr>
+    <th>Original Image</th>
+    <th>Seeds Marked</th>
+    <th>Segmented Result</th>
+  </tr>
+  <tr>
+    <td><img src="images/original.jpg" width="300"/></td>
+    <td><img src="images/seeds.jpg" width="200"/></td>
+    <td><img src="images/segmented.jpg" width="200"/></td>
+  </tr>
+</table>
+
 
 
 ## References
