@@ -70,7 +70,7 @@ Press `ESC` to quit, and the original and segmented images are saved automatical
 
 | Original Image   | Seeds Marked    | Segmented Result   |
 |------------------|-----------------|--------------------|
-| ![](samples/original.jpg) | ![](samples/seeds.jpg) | ![](samples/segmented.jpg) |
+| ![](images/original.jpg) | ![](images/seeds.jpg) | ![](images/segmented.jpg) |
 
 
 ## References
